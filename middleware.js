@@ -1,25 +1,33 @@
-// middleware.js
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"; // Corrected import
+
+
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextResponse } from 'next/server'
 
 const isPublicRoute = createRouteMatcher([
-  '/', // Allow homepage
-  '/sign-in(.*)', // Allow sign-in and its sub-routes
-  '/sign-up(.*)', // Allow sign-up and its sub-routes
-  '/api/webhooks/clerk', // Allow Clerk webhook
-  '/guides', // Allow viewing guides
-  '/guides/(.*)', // Allow viewing individual guides
-  '/centers', // Allow viewing recycling centers
-  '/leaderboard' // Allow viewing leaderboard
+  '/',                      // Homepage
+  '/sign-in(.*)',
+  '/sign-up(.*)',           // Add sign-up
+  // Add other public pages like /guides, /api/webhooks/clerk, etc.
 ]);
 
-export default clerkMiddleware((auth, req) => {
-  if (isPublicRoute(req)) {
-    return; // Do not protect public routes
+ const isProtectedRoute = createRouteMatcher([
+   '/dashboard(.*)',
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+    if (req.nextUrl.pathname === '/') {
+      return NextResponse.redirect(new URL('/overview', req.url));
+    }
   }
-  // For all other routes, protect them
-  auth().protect();
-});
+})
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
-};
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+  ],
+}

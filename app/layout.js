@@ -14,10 +14,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
-      afterSignInUrl="/dashboard/overview"
-      afterSignUpUrl="/dashboard/overview"
+      afterSignInUrl="/overview"
+      afterSignUpUrl="/overview"
     >
       <html lang="en">
         <body className={`${inter.className} flex flex-col min-h-screen`}>

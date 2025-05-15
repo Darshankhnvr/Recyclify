@@ -29,7 +29,7 @@ export default function Navbar() {
             </SignUpButton>
           </SignedOut>
           <SignedIn>
-            <Link href="/dashboard/overview" className="hover:text-green-200">Dashboard</Link>
+            <Link href="/overview" className="hover:text-green-200">Dashboard</Link>
             <UserButton afterSignOutUrl="/" />
           </SignedIn>
         </div>
