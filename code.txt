@@ -1,0 +1,106 @@
+recyclify-platform/
+├── .env.local                   # Environment variables (Clerk keys, DB URL, etc.) - IMPORTANT: Add to .gitignore
+├── .eslintrc.json               # ESLint configuration
+├── .gitignore                   # Files to ignore by Git
+├── middleware.js                # Clerk authentication middleware
+├── next.config.js               # Next.js configuration
+├── package.json                 # Project dependencies and scripts
+├── postcss.config.js            # PostCSS configuration (for Tailwind)
+├── README.md                    # Project description, setup, etc.
+├── tailwind.config.js           # Tailwind CSS configuration
+│
+├── app/
+│   ├── (auth)/                  # Route group for authentication pages
+│   │   ├── sign-in/[[...sign-in]]/page.jsx # Clerk sign-in page
+│   │   ├── sign-up/[[...sign-up]]/page.jsx # Clerk sign-up page
+│   │   └── layout.jsx             # Layout specific to auth pages
+│   │
+│   ├── (dashboard)/             # Route group for authenticated user dashboard
+│   │   ├── layout.jsx             # Dashboard layout
+│   │   ├── overview/page.jsx      # Personal waste tracking & stats
+│   │   ├── my-pickups/page.jsx    # User's scheduled pickups
+│   │   ├── settings/page.jsx      # User profile settings
+│   │   └── log-waste/page.jsx     # Page/modal to log waste
+│   │
+│   ├── (main)/                  # Route group for public-facing pages
+│   │   ├── layout.jsx             # Main public layout
+│   │   ├── guides/
+│   │   │   ├── [slug]/page.jsx    # Dynamic page for individual guides
+│   │   │   └── page.jsx           # Listing page for all guides
+│   │   ├── centers/page.jsx       # Recycling center locator
+│   │   ├── schedule-pickup/page.jsx # Pickup scheduling
+│   │   └── leaderboard/page.jsx   # Community leaderboard
+│   │
+│   ├── api/                     # API routes
+│   │   ├── centers/route.js     # API for recycling centers
+│   │   ├── pickups/route.js     # API for pickup requests
+│   │   ├── waste-log/route.js   # API for user waste logging
+│   │   └── leaderboard/route.js # API for leaderboard data
+│   │   └── webhooks/clerk/route.js # Clerk webhook handler
+│   │
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.jsx               # Root layout
+│   └── page.jsx                 # Landing/Homepage
+│
+├── components/
+│   ├── auth/
+│   │   └── UserNav.jsx
+│   │
+│   ├── common/
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Sidebar.jsx
+│   │   ├── PageHeader.jsx
+│   │   ├── DataTable.jsx
+│   │   └── LoadingSpinner.jsx
+│   │
+│   ├── dashboard/
+│   │   ├── WasteTrackerCard.jsx
+│   │   ├── WasteLogForm.jsx
+│   │   ├── UpcomingPickups.jsx
+│   │   └── StatsChart.jsx
+│   │
+│   ├── guides/
+│   │   ├── GuideCard.jsx
+│   │   └── GuideContent.jsx
+│   │
+│   ├── locator/
+│   │   ├── MapView.jsx
+│   │   └── CenterInfoCard.jsx
+│   │
+│   ├── pickup/
+│   │   └── PickupForm.jsx
+│   │
+│   ├── leaderboard/
+│   │   └── LeaderboardItem.jsx
+│   │
+│   └── ui/                      # Shadcn/UI components (will be .jsx if you configure it or .tsx by default)
+│       ├── button.jsx           # (or .tsx if default shadcn generation)
+│       ├── card.jsx
+│       ├── dialog.jsx
+│       ├── input.jsx
+│       ├── label.jsx
+│       └── ...
+│
+├── lib/
+│   ├── actions/                 # Server Actions (functions in .js files)
+│   │   ├── auth.actions.js
+│   │   ├── user.actions.js
+│   │   ├── guide.actions.js
+│   │   ├── center.actions.js
+│   │   ├── pickup.actions.js
+│   │   └── waste.actions.js
+│   │
+│   ├── db.js                    # Database client setup (e.g., Prisma client)
+│   ├── schema.prisma            # (If using Prisma) Database schema
+│   ├── clerk.js                 # Clerk helper functions
+│   ├── utils.js                 # Utility functions (cn for Tailwind, formatters, etc.)
+│   └── constants.js             # Application-wide constants
+│
+└── public/
+    ├── images/
+    │   └── logo.png
+    │   └── hero-bg.jpg
+    └── icons/
+        └── recycle-bin.svg
