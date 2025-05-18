@@ -7,6 +7,10 @@ const isPublicRoute = createRouteMatcher([
   '/',                      // Homepage
   '/sign-in(.*)',
   '/sign-up(.*)',           // Add sign-up
+  '/api/webhooks/clerk',
+  '/guides(.*)',
+  '/centers(.*)',
+  '/leaderboard',          
   // Add other public pages like /guides, /api/webhooks/clerk, etc.
 ]);
 
