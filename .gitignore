@@ -1,6 +1,15 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-.env.local
+# Environment variables
+.env
+.env*.local
+.env*.production
+
+# Prisma
+/prisma/dev.db
+/prisma/dev.db-journal
+# If you use other DBs and have local dump files, add them too
+# e.g. *.sql
 # dependencies
 /node_modules
 /.pnp

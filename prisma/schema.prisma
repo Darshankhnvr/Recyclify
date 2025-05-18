@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @unique
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  username  String?  @unique
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  wasteLogs     WasteLog[]
+  pickupRequests PickupRequest[]
+  points        Int      @default(0)
+}
+
+model WasteLog {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date        DateTime
+  wasteType   String
+  quantity    Float
+  unit        String
+  description String?
+  recycledAt  String?
+  pointsAwarded Int    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+}
+
+enum PickupStatus {
+  PENDING
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+model PickupRequest {
+  id             String       @id @default(cuid())
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  address        String
+  city           String
+  postalCode     String
+  contactNumber  String
+  // MODIFIED: Store as JSON string for SQLite
+  wasteTypes     String       // Represents JSON array: e.g., '["Plastic", "Paper"]'
+  preferredDate  DateTime
+  status         PickupStatus @default(PENDING)
+  collectorNotes String?
+  userNotes      String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([userId])
+}
+
+model RecyclingGuide {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  content     String
+  category    String
+  imageUrl    String?
+  published   Boolean  @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model RecyclingCenter {
+  id                String   @id @default(cuid())
+  name              String
+  address           String
+  city              String
+  postalCode        String
+  latitude          Float?
+  longitude         Float?
+  contactNumber     String?
+  website           String?
+  // MODIFIED: Store as JSON string for SQLite
+  acceptedMaterials String   // Represents JSON array: e.g., '["Cardboard", "Glass Bottles"]'
+  operatingHours    String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
