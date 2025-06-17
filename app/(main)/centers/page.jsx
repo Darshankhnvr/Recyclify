@@ -31,7 +31,7 @@ export default async function CentersPage() {
                 <Card>
                     <CardHeader>
                         <CardTitle>Interactive Map</CardTitle>
-                        <CardDescription>Explore recycling centers. Click on a marker to see more information.</CardDescription>
+                        <CardDescription>Explore the recycling centers. Click on a marker to see more information.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         {/* The map needs a container with a defined height */}
